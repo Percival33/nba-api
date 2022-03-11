@@ -1,5 +1,4 @@
 from data import Data
-import requests
 
 class Player(Data):
     def __init__(self):
@@ -16,7 +15,7 @@ class Player(Data):
         return player['weight']
     
 
-    def get_players_data(self, data):
+    def get_tallest_and_heaviest(self, data):
         tallest, heaviest = [], []
 
         for player in data:
@@ -54,13 +53,14 @@ class Player(Data):
         print("The heaviest player: " + heaviest_str)
 
 
-    def get_stats(self, name: str):
+    def get_stats(self, name: str) -> None:
         payload = {
             'search' : name,
+            'per_page' : 100
         }
 
         data = self.get_all_data("https://balldontlie.io/api/v1/players",payload)
 
-        tallest, heaviest = self.get_players_data(data)
+        tallest, heaviest = self.get_tallest_and_heaviest(data)
         self.print_stats(tallest, heaviest)    
         

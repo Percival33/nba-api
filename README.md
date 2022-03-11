@@ -2,6 +2,8 @@
 
 This is recruitment task for Intern Python Developer at [Profil Software](https://profil-software.com/).
 
+Task is to build a script/CLI that will process data from external API about NBA related data and give desirable results.
+
 ## TODO
 
 - [ ] add specification section
@@ -50,7 +52,7 @@ python script.py players-stats --name James
 
 ```
 The tallest player: James Johnson 2.03 meters
-The heaviest player: LeBron James 112 kilograms
+The heaviest player: LeBron James 113 kilograms
 ```
 
 or if there is no data provided:
