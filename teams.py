@@ -5,6 +5,7 @@ class Teams(Data):
     def __init__(self):
         pass
     
+
     def get_all_teams(self) -> None: 
         payload = {
             'per_page' : 30
