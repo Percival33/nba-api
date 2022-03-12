@@ -1,10 +1,10 @@
 from data import Data
 from typing import List, Tuple
 
+
 class Player(Data):
     def __init__(self) -> None:
-        pass
-    
+        super().__init__()
 
     def get_tallest_and_heaviest(self, data: List[dict]) -> Tuple[List[dict], List[dict]]:
         """
@@ -24,14 +24,14 @@ class Player(Data):
         tallest, heaviest = [], []
 
         for player in data:
-            if player['height_feet'] != None:
+            if player['height_feet'] is not None:
                 tallest.append({
                     'first_name': player['first_name'],
                     'last_name' : player['last_name'],
                     'height' : self.height_to_meters(player['height_feet'], player['height_inches'])
                 })
             
-            if player['weight_pounds'] != None:
+            if player['weight_pounds'] is not None:
                 heaviest.append({
                     'first_name': player['first_name'],
                     'last_name' : player['last_name'],
@@ -43,10 +43,11 @@ class Player(Data):
 
         return tallest, heaviest
 
-
-    def print_stats(self, tallest: List[dict], heaviest: List[dict]) -> None:
+    @staticmethod
+    def print_stats(tallest: List[dict], heaviest: List[dict]) -> None:
         """
-            Function prints tallest player and their height and heaviest player and their weight. If no data are available it prints "Not found"
+            Function prints the tallest player and their height and the heaviest player and their weight.
+            If no data are available it prints "Not found".
 
             Parameters
             ----------
@@ -67,11 +68,11 @@ class Player(Data):
             tallest_str = f'{tallest[0]["first_name"]} {tallest[0]["last_name"]} {round(tallest[0]["height"],2)} meters'
             
         if heaviest:
-            heaviest_str = f'{heaviest[0]["first_name"]} {heaviest[0]["last_name"]} {round(heaviest[0]["weight"])} kilograms'
+            heaviest_str = f'{heaviest[0]["first_name"]} {heaviest[0]["last_name"]} {round(heaviest[0]["weight"])} '\
+                    'kilograms'
 
         print("The tallest player: " + tallest_str)
         print("The heaviest player: " + heaviest_str)
-
 
     def get_stats(self, name: str) -> None:
         """
@@ -87,15 +88,14 @@ class Player(Data):
                 None
         """
         payload = {
-            'search' : name,
-            'per_page' : 50
+            'search': name,
+            'per_page': 50
         }
 
-        data = self.get_all_data("https://balldontlie.io/api/v1/players",payload)
+        data = self.get_all_data("https://balldontlie.io/api/v1/players", payload)
 
         tallest, heaviest = self.get_tallest_and_heaviest(data)
         self.print_stats(tallest, heaviest)    
-
 
     @staticmethod
     def height(player: dict) -> int:
@@ -105,7 +105,7 @@ class Player(Data):
             Parameters
             ----------
                 player: dict
-                    dict representing player
+                    dictionary representing player
 
             Returns
             -------
@@ -113,7 +113,6 @@ class Player(Data):
                     players height
         """
         return player['height']
-
 
     @staticmethod
     def weight(player: dict) -> int:
@@ -123,7 +122,7 @@ class Player(Data):
             Parameters
             ----------
                 player: dict
-                    dict representing player
+                    dictionary representing player
 
             Returns
             -------

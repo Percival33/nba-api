@@ -4,12 +4,13 @@ import csv, json, sqlite3
 from progress.bar import Bar
 from typing import List
 
+
 class Data:
     def __init__(self) -> None:
         pass
 
-
-    def handle_error(self, http_code: int) -> None:
+    @staticmethod
+    def handle_error(http_code: int) -> None:
         """
             Function raises exception accordingly to error code.
 
@@ -22,7 +23,6 @@ class Data:
             -------
                 None
         """
-
         if http_code == 400:
             raise Exception("Your request is invalid")
         elif http_code == 404:
@@ -36,11 +36,10 @@ class Data:
         elif http_code == 503:
             raise Exception("Balldontlie is offline for maintenance. Please try again later.")
 
-
-    def get_all_data(self, url: str, payload: dict = {}) -> List[dict]:
+    def get_all_data(self, url: str, payload: dict = None) -> List[dict]:
         """
-            Function makes GET request to given url with payload parameters. If there are multiple pages, they are merged to list of dicts.
-            On error handle_error() is called and adequate exception is raised.
+            Function makes GET request to given url with payload parameters. If there are multiple pages,
+            they are merged to list of dicts. On error handle_error() is called and adequate exception is raised.
 
             Parameters
             ----------
@@ -91,7 +90,6 @@ class Data:
 
         return data
 
-
     @staticmethod
     def to_json(data: List[dict]) -> None:
         """
@@ -109,17 +107,17 @@ class Data:
         with open(f'output.json', 'w') as f:
             json.dump(data, f, indent=2)
 
-
     @staticmethod
     def to_csv(data: List[dict]) -> None:
         """
             Function saves data to csv file (output.csv) with default fieldnames.
-            fieldnames = Team name, Won games as home team, Won games as visitor team, Lost games as home team, Lost games as visitor team
+            fieldnames = Team name, Won games as home team, Won games as visitor team, Lost games as home team,
+            Lost games as visitor team
 
             Parameters
             ----------
                 data: List[data]
-                    data to be save to csv file
+                    data to be saved to csv file
 
             Returns
             -------
@@ -127,7 +125,8 @@ class Data:
         """
 
         with open(f"output.csv", 'w') as new_file:
-            fieldnames = ['Team name', 'Won games as home team', 'Won games as visitor team', 'Lost games as home team', 'Lost games as visitor team']
+            fieldnames = ['Team name', 'Won games as home team', 'Won games as visitor team', 'Lost games as home team',
+                          'Lost games as visitor team']
 
             csv_writer = csv.DictWriter(new_file, fieldnames=fieldnames)
 
@@ -144,17 +143,17 @@ class Data:
 
                 csv_writer.writerow(line)
 
-
     @staticmethod
     def to_sqlite(data: List[dict]) -> None:
         """
             Function creates table teams_stats, inserts data into it and save it to (output.sqlite) file.
-            teams_stats (Team name: text, Won games as home team: integer, Won games as visitor team: integer, Lost games as home team: integer, Lost games as visitor team: integer)
+            teams_stats (Team name: text, Won games as home team: integer, Won games as visitor team: integer,
+            Lost games as home team: integer, Lost games as visitor team: integer)
 
             Parameters
             ----------
                 data: List[data]
-                    data to be save to sqlite file
+                    data to be saved to sqlite file
 
             Returns
             -------
@@ -175,7 +174,8 @@ class Data:
         conn.commit()
 
         for team in data:
-            c.execute("INSERT INTO teams_stats VALUES (:team_name,              :won_games_as_home_team, :won_games_as_visitor_team, :lost_games_as_home_team, :lost_games_as_visitor_team)",
+            c.execute("INSERT INTO teams_stats VALUES (:team_name,              :won_games_as_home_team, "
+                      ":won_games_as_visitor_team, :lost_games_as_home_team, :lost_games_as_visitor_team)",
             {
                 'team_name': team['team_name'],
                 'won_games_as_home_team': team['won_games_as_home_team'],
@@ -184,10 +184,8 @@ class Data:
                 'lost_games_as_visitor_team': team['lost_games_as_visitor_team'],
             })
 
-        
         conn.commit()
         conn.close()
-        
 
     @staticmethod
     def height_to_meters(feet: float, inch: float) -> float:
@@ -205,8 +203,8 @@ class Data:
                 height: int
                     Length in metric system
         """
-        if feet == None:
-            return None
+        if feet is None:
+            return 0.0
         return (float(feet) * 30.48 + float(inch) * 2.54) / 100
 
 
@@ -224,6 +222,6 @@ class Data:
                 weight: float
                     weight in metric system
         """
-        if pounds == None:
-            return None
+        if pounds is None:
+            return 0.0
         return float(pounds) * 0.453

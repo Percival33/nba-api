@@ -1,10 +1,11 @@
 from data import Data
 from typing import List
 
+
 class Teams(Data):
+
     def __init__(self) -> None:
-        pass
-    
+        super().__init__()
 
     def get_all_teams(self) -> None:
         """
@@ -12,18 +13,18 @@ class Teams(Data):
 
             Parameters
             ----------
-            None
+            self
 
             Returns
             -------
             None
         """
         payload = {
-            'per_page' : 30
+            'per_page': 30
         }
 
         teams = self.get_all_data("https://www.balldontlie.io/api/v1/teams", payload)
-        
+
         divisions = dict()
 
         for team in teams:
@@ -31,8 +32,8 @@ class Teams(Data):
                 divisions[team['division']] = []
 
             divisions[team['division']].append({
-                'full_name' : team['full_name'],
-                'abbreviation' : team['abbreviation']
+                'full_name': team['full_name'],
+                'abbreviation': team['abbreviation']
             })
 
         for div in divisions:
@@ -40,19 +41,19 @@ class Teams(Data):
             for team in divisions[div]:
                 print(f'\t{team["full_name"]} ({team["abbreviation"]})'.expandtabs(4))
 
-
-    def add_team_result(self, team_data: dict, result: dict) -> dict:
+    @staticmethod
+    def add_team_result(team_data: dict, result: dict) -> dict:
         """
-            Function updates and returns team_data acordingly to result of a game.
+            Function updates and returns team_data accordingly to result of a game.
 
 
             Parameters
             ----------
                 team_data: dict
-                    dict representing team and their results
+                    representing team and their results
                 
                 result: dict
-                    dict representing result of one game
+                    representing result of one game
 
             Returns
             -------
@@ -68,13 +69,12 @@ class Teams(Data):
             team_data['lost_games_as_home_team'] = 0
             team_data['lost_games_as_visitor_team'] = 0
 
-
         if result['home']:
             if result['won']:
                 team_data['won_games_as_home_team'] += 1
             else:
                 team_data['lost_games_as_home_team'] += 1
-        
+
         else:
             if result['won']:
                 team_data['won_games_as_visitor_team'] += 1
@@ -82,7 +82,6 @@ class Teams(Data):
                 team_data['lost_games_as_visitor_team'] += 1
 
         return team_data
-
 
     def parse_games(self, data: List[dict]) -> List[dict]:
         """
@@ -106,30 +105,28 @@ class Teams(Data):
             home_team_data = {
                 'home': True,
                 'team_id': game['home_team']['id'],
-                'team_name': (f'{game["home_team"]["full_name"]}' 
-                f' ({game["home_team"]["abbreviation"]})'),
+                'team_name': (f'{game["home_team"]["full_name"]}'
+                              f' ({game["home_team"]["abbreviation"]})'),
                 'won': game['home_team_score'] > game['visitor_team_score']
             }
 
             visitor_team_data = {
                 'home': False,
                 'team_id': game['visitor_team']['id'],
-                'team_name': (f'{game["visitor_team"]["full_name"]}' 
-                f' ({game["visitor_team"]["abbreviation"]})'),
+                'team_name': (f'{game["visitor_team"]["full_name"]}'
+                              f' ({game["visitor_team"]["abbreviation"]})'),
                 'won': game['visitor_team_score'] > game['home_team_score']
             }
 
-
             team_id = home_team_data['team_id']
-            teams_stats[team_id] = self.add_team_result(teams_stats[team_id],home_team_data)
+            teams_stats[team_id] = self.add_team_result(teams_stats[team_id], home_team_data)
 
             team_id = visitor_team_data['team_id']
-            teams_stats[team_id] = self.add_team_result(teams_stats[team_id],visitor_team_data)
+            teams_stats[team_id] = self.add_team_result(teams_stats[team_id], visitor_team_data)
 
-        del teams_stats[0] # delete empty dict
+        del teams_stats[0]  # delete empty dict
 
         return teams_stats
-
 
     def teams_stats(self, season: int, output: str = "stdout") -> None:
         """
@@ -140,13 +137,14 @@ class Teams(Data):
                 season: int
                     Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
                 output: str
-                    output method { csv | json | sqlite | stdout(default) }. Creates output.* file or just print results without saving it.
+                    output method { csv | json | sqlite | stdout(default) }. Creates output.* file or just print results
+                     without saving it.
 
             Returns
             -------
                 None            
         """
-        
+
         payload = {
             'seasons[]': season,
             'per_page': 100,
@@ -169,4 +167,3 @@ class Teams(Data):
                 print(f"\twon games as visitor team: {team['won_games_as_visitor_team']}".expandtabs(4))
                 print(f"\tlost games as home team: {team['lost_games_as_home_team']}".expandtabs(4))
                 print(f"\tlost games as visitor team: {team['lost_games_as_visitor_team']}".expandtabs(4))
-
