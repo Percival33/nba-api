@@ -1,4 +1,5 @@
 # nba-api
+Author: Marcin Jarczewski
 
 This is recruitment task for Intern Python Developer at [Profil Software](https://profil-software.com/).
 
