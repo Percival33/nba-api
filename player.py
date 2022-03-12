@@ -1,21 +1,26 @@
 from data import Data
+from typing import List, Tuple
 
 class Player(Data):
-    def __init__(self):
+    def __init__(self) -> None:
         pass
     
 
-    @staticmethod
-    def height(player) -> int:
-        return player['height']
+    def get_tallest_and_heaviest(self, data: List[dict]) -> Tuple[List[dict], List[dict]]:
+        """
+            Function parses list of players and returns sorted lists by height and by weight.
 
+            Parameters
+            ----------
+            data : List[dict]
+                list of players
 
-    @staticmethod
-    def weight(player) -> int:
-        return player['weight']
-    
-
-    def get_tallest_and_heaviest(self, data):
+            Returns
+            -------
+            List[dict], List[dict] - list of players:
+                sorted by height decreasingly, 
+                sorted by weight decreasingly 
+        """
         tallest, heaviest = [], []
 
         for player in data:
@@ -39,7 +44,22 @@ class Player(Data):
         return tallest, heaviest
 
 
-    def print_stats(self, tallest, heaviest) -> None:
+    def print_stats(self, tallest: List[dict], heaviest: List[dict]) -> None:
+        """
+            Function prints tallest player and their height and heaviest player and their weight. If no data are available it prints "Not found"
+
+            Parameters
+            ----------
+            tallest: List[dict]
+                List of players sorted by height decreasingly
+            heaviest: List[dict]
+                List of players sorted by weight decreasingly
+
+            Returns
+            -------
+            None
+        """
+
         tallest_str = "Not found"
         heaviest_str = "Not found"
         
@@ -54,13 +74,62 @@ class Player(Data):
 
 
     def get_stats(self, name: str) -> None:
+        """
+            Function prints tallest and heaviest players name and values. If no data is available prints "Not found"
+
+            Parameters
+            ----------
+                name: str
+                    name (first or last) of players to be searched for tallest and heaviest one.
+
+            Returns
+            -------
+                None
+        """
         payload = {
             'search' : name,
-            'per_page' : 100
+            'per_page' : 50
         }
 
         data = self.get_all_data("https://balldontlie.io/api/v1/players",payload)
 
         tallest, heaviest = self.get_tallest_and_heaviest(data)
         self.print_stats(tallest, heaviest)    
+
+
+    @staticmethod
+    def height(player: dict) -> int:
+        """
+            Function returns players height
+
+            Parameters
+            ----------
+                player: dict
+                    dict representing player
+
+            Returns
+            -------
+                player['height']: int
+                    players height
+        """
+        return player['height']
+
+
+    @staticmethod
+    def weight(player: dict) -> int:
+        """
+            Function returns players weight
+
+            Parameters
+            ----------
+                player: dict
+                    dict representing player
+
+            Returns
+            -------
+                player['weight']: int
+                    players weight
+        """
+        return player['weight']
+    
         

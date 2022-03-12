@@ -1,4 +1,6 @@
 **.pyc
 .idea
 venv
-out.json
+*.json
+json/*
+output.*
