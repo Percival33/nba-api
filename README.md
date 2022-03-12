@@ -4,15 +4,6 @@ This is recruitment task for Intern Python Developer at [Profil Software](https:
 
 Task is to build a script/CLI that will process data from external API about NBA related data and return desirable results.
 
-## TODO
-
-- [x] add specification section
-- [x] add examples of usage
-- [x] teams related data ie. teams grouped into divisions
-- [x] specific player data
-- [x] season statistics
-- [x] storing options (json, csv, sqlite, stdout)
-- [ ] add type hinting
 
 ## Instalation
 
@@ -24,23 +15,43 @@ pip install requirements.txt
 
 ## Usage
 
-### 0. To get help with arguments or its values run
-
+### 0. To get help with arguments or its values
+1. Example usage: (to get help with general usage)
 ```py
-# to get help with general usage
-python script.py -h
+$ python script.py -h
+usage: script.py [-h] {grouped-teams,players-stats,teams-stats} ...
 
-# or with specific one
-python script.py teams-stats --season 2018 -h
+positional arguments:
+  {grouped-teams,players-stats,teams-stats}
+    grouped-teams       Get all teams grouped in divisions
+    players-stats       Get players with name (first or last) who is the tallest and is the heaviest
+    teams-stats         Get statistics for a given season and optionally store it
+
+optional arguments:
+  -h, --help            show this help message and exit
+```
+
+2. Example usage: (of specific help)
+```py
+$ python script.py teams-stats --season 2018 -h
+usage: script.py teams-stats [-h] --season SEASON [--output {csv,json,sqlite,stdout}]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --season SEASON       Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
+  --output {csv,json,sqlite,stdout}
+                        Choose output format. stdout is default
 ```
 
 ### 1. Getting all teams grouped by divisions
+
+Example input:
 
 ```py
 python script.py grouped-teams
 ```
 
-### Example output
+Example output
 
 ```
 Southeast
@@ -60,13 +71,15 @@ Atlantic
 
 ### 2. Get players with a specific name who is the tallest and another one who weight the most (values in metric system)
 
-`--name` parameter is required. Provide first or last name.
+Example input:
+
+`--name` parameter is **required**. Provide first or last name.
 
 ```py
 python script.py players-stats --name James
 ```
 
-### Example output
+Example output
 
 ```
 The tallest player: James Johnson 2.03 meters
@@ -82,6 +95,8 @@ The heaviest player: Not found
 
 ### 3. Get statistics for a given season and optionally store it
 
+Example input:
+
 - `--season` parameter is **required**. Seasons are represented by the year they began. For example, 2018 represents season 2018-2019
 - `--output` parameter is optional. The default value is `stdout`.
 
@@ -96,7 +111,7 @@ The heaviest player: Not found
 python script.py teams-stats --season 2018
 ```
 
-### Example output
+Example output
 
 ```
 Atlanta Hawks (ATL)
@@ -112,3 +127,13 @@ Boston Celtics (BOS)
 Brooklyn Nets (BKN)
 <rest of teams statistics>
 ```
+
+## TODO
+
+- [x] add specification section
+- [x] add examples of usage
+- [x] teams related data ie. teams grouped into divisions
+- [x] specific player data
+- [x] season statistics
+- [x] storing options (json, csv, sqlite, stdout)
+- [x] add type hinting
