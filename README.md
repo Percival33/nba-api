@@ -6,7 +6,7 @@ This is recruitment task for Intern Python Developer at [Profil Software](https:
 
 Task is to build a script/CLI that will process data from external [API](https://www.balldontlie.io/) about NBA related data and return desirable results.
 
-## Instalation
+## Installation
 
 Start by cloning the repository:
 
@@ -16,7 +16,7 @@ git clone https://github.com/Percival33/nba-api.git
 
 Usage of `virtualenv` is recommended.
 
-> While working on MacOs replace `pip` with `pip3` and `python` with `python3`. To install pip3 on MacOs install python3.
+> While working on macOS replace `pip` with `pip3` and `python` with `python3`. To install pip3 on macOS install python3.
 >
 > ```
 > brew install python3
@@ -156,7 +156,7 @@ The heaviest player: Not found
 
 - `--season` parameter is **required**. Seasons are represented by the year they began. For example, 2018 represents season 2018-2019
 
-- `--output` parameter is optional. The default value is `stdout`. Otherwise output.\* file will be created.
+- `--output` parameter is optional. The default value is `stdout`. Otherwise, output.\* file will be created.
 
   Possible parameters:
 
@@ -192,7 +192,7 @@ Brooklyn Nets (BKN)
 
 - [x] add specification section
 - [x] add examples of usage
-- [x] teams related data ie. teams grouped into divisions
+- [x] teams related data i.e. teams grouped into divisions
 - [x] specific player data
 - [x] season statistics
 - [x] storing options (json, csv, sqlite, stdout)
