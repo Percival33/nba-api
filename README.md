@@ -4,15 +4,49 @@ Author: [Marcin Jarczewski](https://github.com/Percival33).
 
 This is recruitment task for Intern Python Developer at [Profil Software](https://profil-software.com/).
 
-Task is to build a script/CLI that will process data from external API about NBA related data and return desirable results.
+Task is to build a script/CLI that will process data from external [API](https://www.balldontlie.io/) about NBA related data and return desirable results.
 
 ## Instalation
 
-To install all dependencies:
+Start by cloning the repository:
+
+```
+git clone https://github.com/Percival33/nba-api.git
+```
+
+Usage of `virtualenv` is recommended.
+
+- Start by installing `virtualenv`
+
+```
+pip install virtualenv
+```
+
+- When installation is completed, go to project folder
+
+```
+cd nba-api
+```
+
+- Create virtual environment called `venv`
+
+```
+python -m virtualenv venv
+```
+
+- Then activate `venv` it
+
+```
+source venv/bin/activate
+```
+
+- Install all python dependencies:
 
 ```py
 pip install -r requirements.txt
 ```
+
+- Now you are ready to use script
 
 ## Usage
 
