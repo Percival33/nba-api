@@ -4,7 +4,6 @@ This is recruitment task for Intern Python Developer at [Profil Software](https:
 
 Task is to build a script/CLI that will process data from external API about NBA related data and return desirable results.
 
-
 ## Instalation
 
 To install all dependencies:
@@ -16,7 +15,9 @@ pip install requirements.txt
 ## Usage
 
 ### 0. To get help with arguments or its values
+
 1. Example usage: (to get help with general usage)
+
 ```py
 $ python script.py -h
 usage: script.py [-h] {grouped-teams,players-stats,teams-stats} ...
@@ -32,6 +33,7 @@ optional arguments:
 ```
 
 2. Example usage: (of specific help)
+
 ```py
 $ python script.py teams-stats --season 2018 -h
 usage: script.py teams-stats [-h] --season SEASON [--output {csv,json,sqlite,stdout}]
@@ -51,7 +53,7 @@ Example input:
 python script.py grouped-teams
 ```
 
-Example output
+Example output:
 
 ```
 Southeast
@@ -71,15 +73,15 @@ Atlantic
 
 ### 2. Get players with a specific name who is the tallest and another one who weight the most (values in metric system)
 
-Example input:
-
 `--name` parameter is **required**. Provide first or last name.
+
+Example input:
 
 ```py
 python script.py players-stats --name James
 ```
 
-Example output
+Example output:
 
 ```
 The tallest player: James Johnson 2.03 meters
@@ -95,10 +97,9 @@ The heaviest player: Not found
 
 ### 3. Get statistics for a given season and optionally store it
 
-Example input:
-
 - `--season` parameter is **required**. Seasons are represented by the year they began. For example, 2018 represents season 2018-2019
-- `--output` parameter is optional. The default value is `stdout`.
+
+- `--output` parameter is optional. The default value is `stdout`. Otherwise output.\* file will be created.
 
   Possible parameters:
 
@@ -107,11 +108,13 @@ Example input:
   - sqlite
   - stdout
 
+Example input:
+
 ```py
 python script.py teams-stats --season 2018
 ```
 
-Example output
+Example output:
 
 ```
 Atlanta Hawks (ATL)
