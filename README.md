@@ -99,7 +99,7 @@ pip install -r requirements.txt
 
   optional arguments:
     -h, --help   show this help message and exit
-    --name NAME  Provide first or last name of player to their get statistics
+    --name NAME  Provide first or last name of player to get their statistics
   ```
 
 ### 1. Getting all teams grouped by divisions
