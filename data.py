@@ -1,6 +1,8 @@
 import requests
 import time
-import csv, json, sqlite3
+import csv
+import json
+import sqlite3
 from progress.bar import Bar
 from typing import List
 
@@ -26,7 +28,7 @@ class Data:
         if http_code == 400:
             raise Exception("Your request is invalid")
         elif http_code == 404:
-            raise Exception("Specified resourse could not be found")
+            raise Exception("Specified resource could not be found")
         elif http_code == 406:
             raise Exception("Balldontlie could not send format different than json")
         elif http_code == 429:
@@ -60,11 +62,12 @@ class Data:
         try:
             if res.ok:
                 total_pages = res.json()['meta']['total_pages']
-                
+
                 with Bar('Processing...', max=total_pages) as bar:
-                    bar.next()
 
                     data = res.json()['data']
+                    if data:
+                        bar.next()
 
                     for page in range(2, total_pages + 1):
                         payload['page'] = page
@@ -75,11 +78,11 @@ class Data:
                             data = [*data, *res.json()['data']]
                         else:
                             self.handle_error(res.status_code)
-                        
+
                         time.sleep(res.elapsed.total_seconds())
-                        
+
                         bar.next()
-                    
+
                     bar.finish()
 
             else:
@@ -91,7 +94,7 @@ class Data:
         return data
 
     @staticmethod
-    def to_json(data: List[dict]) -> None:
+    def to_json(data: List[dict], filename: str = 'output') -> None:
         """
             Function dumps data to JSON file (output.json)
 
@@ -100,15 +103,20 @@ class Data:
                 data: List[data]
                     data to be dumped to JSON file
 
+                filename: str
+                    name of created file
+
             Returns
             -------
                 None
         """
-        with open(f'output.json', 'w') as f:
+        with open(f'{filename}.json', 'w') as f:
             json.dump(data, f, indent=2)
 
+        print(f'File {filename}.json was successfully created')
+
     @staticmethod
-    def to_csv(data: List[dict]) -> None:
+    def to_csv(data: List[dict], filename: str = 'output') -> None:
         """
             Function saves data to csv file (output.csv) with default fieldnames.
             fieldnames = Team name, Won games as home team, Won games as visitor team, Lost games as home team,
@@ -119,12 +127,15 @@ class Data:
                 data: List[data]
                     data to be saved to csv file
 
+                filename: str
+                    name of created file
+
             Returns
             -------
                 None
         """
 
-        with open(f"output.csv", 'w') as new_file:
+        with open(f"{filename}.csv", 'w') as new_file:
             fieldnames = ['Team name', 'Won games as home team', 'Won games as visitor team', 'Lost games as home team',
                           'Lost games as visitor team']
 
@@ -134,17 +145,19 @@ class Data:
 
             for team in data:
                 line = {
-                    'Team name': team['team_name'], 
-                    'Won games as home team': team["won_games_as_home_team"], 
-                    'Won games as visitor team': team["won_games_as_visitor_team"], 
-                    'Lost games as home team': team["lost_games_as_home_team"], 
+                    'Team name': team['team_name'],
+                    'Won games as home team': team["won_games_as_home_team"],
+                    'Won games as visitor team': team["won_games_as_visitor_team"],
+                    'Lost games as home team': team["lost_games_as_home_team"],
                     'Lost games as visitor team': team["lost_games_as_visitor_team"]
                 }
 
                 csv_writer.writerow(line)
 
+        print(f'File {filename}.csv was successfully created')
+
     @staticmethod
-    def to_sqlite(data: List[dict]) -> None:
+    def to_sqlite(data: List[dict], filename: str = 'output') -> None:
         """
             Function creates table teams_stats, inserts data into it and save it to (output.sqlite) file.
             teams_stats (Team name: text, Won games as home team: integer, Won games as visitor team: integer,
@@ -155,12 +168,15 @@ class Data:
                 data: List[data]
                     data to be saved to sqlite file
 
+                filename: str
+                    name of created file
+
             Returns
             -------
                 None
         """
-        conn = sqlite3.connect('output.sqlite')
-        
+        conn = sqlite3.connect(f'{filename}.sqlite')
+
         c = conn.cursor()
 
         c.execute("""CREATE TABLE teams_stats (
@@ -174,23 +190,34 @@ class Data:
         conn.commit()
 
         for team in data:
-            c.execute("INSERT INTO teams_stats VALUES (:team_name,              :won_games_as_home_team, "
-                      ":won_games_as_visitor_team, :lost_games_as_home_team, :lost_games_as_visitor_team)",
-            {
-                'team_name': team['team_name'],
-                'won_games_as_home_team': team['won_games_as_home_team'],
-                'won_games_as_visitor_team': team['won_games_as_visitor_team'],
-                'lost_games_as_home_team': team['lost_games_as_home_team'],
-                'lost_games_as_visitor_team': team['lost_games_as_visitor_team'],
-            })
+            # shorcuts tn = team_name, take only first letters
+            value = {
+                'tn': team['team_name'],
+                'wght': team['won_games_as_home_team'],
+                'wgvt': team['won_games_as_visitor_team'],
+                'lght': team['lost_games_as_home_team'],
+                'lgvt': team['lost_games_as_visitor_team']
+            }
+
+            c.execute("INSERT INTO teams_stats VALUES "
+                      "(:team_name, :won_games_as_home_team,:won_games_as_visitor_team, :lost_games_as_home_team,"
+                      " :lost_games_as_visitor_team)",
+                      {
+                          'team_name': value['tn'],
+                          'won_games_as_home_team': value['wght'],
+                          'won_games_as_visitor_team': value['wgvt'],
+                          'lost_games_as_home_team': value['lght'],
+                          'lost_games_as_visitor_team': value['lgvt'],
+                      })
 
         conn.commit()
         conn.close()
+        print(f'File {filename}.sqlite was successfully created')
 
     @staticmethod
     def height_to_meters(feet: float, inch: float) -> float:
         """
-            Function converts feet and inches to meters
+            Function converts feet and inches values to metric system
             Parameters
             ----------
                 feet: float
@@ -206,7 +233,6 @@ class Data:
         if feet is None:
             return 0.0
         return (float(feet) * 30.48 + float(inch) * 2.54) / 100
-
 
     @staticmethod
     def weight_to_kg(pounds: float) -> float:
