@@ -16,6 +16,14 @@ git clone https://github.com/Percival33/nba-api.git
 
 Usage of `virtualenv` is recommended.
 
+> While working on MacOs replace `pip` with `pip3`. To install pip3 on MacOs install python3.
+>
+> ```
+> brew install python3
+> ```
+>
+> or follow instructions from this [page](https://www.delftstack.com/howto/python/python-install-pip3-mac/).
+
 - Start by installing `virtualenv`
 
 ```
@@ -52,7 +60,7 @@ pip install -r requirements.txt
 
 ### 0. To get help with arguments or its values
 
-1. Example usage: (to get help with general usage)
+Example usage: (to get help with general usage)
 
 ```py
 $ python script.py -h
@@ -68,7 +76,7 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
-2. Example usage: (of specific help)
+Example usage: (of specific help)
 
 ```py
 $ python script.py teams-stats --season 2018 -h
