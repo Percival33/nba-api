@@ -1,4 +1,5 @@
 # nba-api
+
 Author: [Marcin Jarczewski](https://github.com/Percival33).
 
 This is recruitment task for Intern Python Developer at [Profil Software](https://profil-software.com/).
@@ -10,7 +11,7 @@ Task is to build a script/CLI that will process data from external API about NBA
 To install all dependencies:
 
 ```py
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Usage
