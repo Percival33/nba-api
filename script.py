@@ -14,8 +14,8 @@ if __name__ == '__main__':
     teams_stats = subparser.add_parser('teams-stats', help="Get statistics for a given season and optionally store it")
 
     # arguments
-    players_stats.add_argument('--name', type=str, required=True, help="Provide first or last name of player to their\
-     get statistics")
+    players_stats.add_argument('--name', type=str, required=True, help="Provide first or last name of player to get "
+                                                                       "their statistics")
     teams_stats.add_argument('--season', type=int, required=True, help="Seasons are represented by the year they began.\
      For example, 2018 represents season 2018-2019.")
 
