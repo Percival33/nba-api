@@ -91,7 +91,7 @@ class Player(Data):
         """
         
         if not re.findall('^[a-zA-Z]*$', name):
-            print("Error occurred:\n\tName can not contain neither digit nor special character.")
+            print("Error occurred:\n\tName can not contain any digit or special character.")
             sys.exit(1)
 
         payload = {

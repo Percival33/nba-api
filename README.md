@@ -198,3 +198,4 @@ Brooklyn Nets (BKN)
 - [x] storing options (json, csv, sqlite, stdout)
 - [x] add type hinting
 - [ ] add **tests**
+- [ ] add autocomplete/autosuggestion
