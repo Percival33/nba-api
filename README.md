@@ -188,7 +188,7 @@ Brooklyn Nets (BKN)
 <rest of teams statistics>
 ```
 
-## TODO
+## TODO (in future)
 
 - [x] add specification section
 - [x] add examples of usage
@@ -197,3 +197,4 @@ Brooklyn Nets (BKN)
 - [x] season statistics
 - [x] storing options (json, csv, sqlite, stdout)
 - [x] add type hinting
+- [ ] add **tests**
