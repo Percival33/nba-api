@@ -29,15 +29,15 @@ class Player(Data):
             if player['height_feet'] is not None:
                 tallest.append({
                     'first_name': player['first_name'],
-                    'last_name' : player['last_name'],
-                    'height' : self.height_to_meters(player['height_feet'], player['height_inches'])
+                    'last_name': player['last_name'],
+                    'height': self.height_to_meters(player['height_feet'], player['height_inches'])
                 })
             
             if player['weight_pounds'] is not None:
                 heaviest.append({
                     'first_name': player['first_name'],
-                    'last_name' : player['last_name'],
-                    'weight' : self.weight_to_kg(player['weight_pounds'])
+                    'last_name': player['last_name'],
+                    'weight': self.weight_to_kg(player['weight_pounds'])
                 })
 
         tallest.sort(key=self.height, reverse=True)
@@ -91,7 +91,7 @@ class Player(Data):
         """
         
         if not re.findall('^[a-zA-Z]*$', name):
-            print("Error occurred:\n\tName can not contain neither digit nor special chracter.")
+            print("Error occurred:\n\tName can not contain neither digit nor special character.")
             sys.exit(1)
 
         payload = {
