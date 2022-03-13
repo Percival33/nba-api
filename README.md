@@ -16,7 +16,7 @@ git clone https://github.com/Percival33/nba-api.git
 
 Usage of `virtualenv` is recommended.
 
-> While working on MacOs replace `pip` with `pip3`. To install pip3 on MacOs install python3.
+> While working on MacOs replace `pip` with `pip3` and `python` with `python3`. To install pip3 on MacOs install python3.
 >
 > ```
 > brew install python3
@@ -60,34 +60,47 @@ pip install -r requirements.txt
 
 ### 0. To get help with arguments or its values
 
-Example usage: (to get help with general usage)
+- Example usage: (to get help with general usage)
 
-```py
-$ python script.py -h
-usage: script.py [-h] {grouped-teams,players-stats,teams-stats} ...
+  ```py
+  $ python script.py -h
+  usage: script.py [-h] {grouped-teams,players-stats,teams-stats} ...
 
-positional arguments:
-  {grouped-teams,players-stats,teams-stats}
-    grouped-teams       Get all teams grouped in divisions
-    players-stats       Get players with name (first or last) who is the tallest and is the heaviest
-    teams-stats         Get statistics for a given season and optionally store it
+  positional arguments:
+    {grouped-teams,players-stats,teams-stats}
+      grouped-teams       Get all teams grouped in divisions
+      players-stats       Get players with name (first or last) who is the tallest and is the heaviest
+      teams-stats         Get statistics for a given season and optionally store it
 
-optional arguments:
-  -h, --help            show this help message and exit
-```
+  optional arguments:
+    -h, --help            show this help message and exit
+  ```
 
-Example usage: (of specific help)
+- Example usage: (of specific help)
 
-```py
-$ python script.py teams-stats --season 2018 -h
-usage: script.py teams-stats [-h] --season SEASON [--output {csv,json,sqlite,stdout}]
+  ```py
+  $ python script.py teams-stats --season 2018 -h
+  usage: script.py teams-stats [-h] --season SEASON [--output {csv,json,sqlite,stdout}]
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --season SEASON       Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
-  --output {csv,json,sqlite,stdout}
-                        Choose output format. stdout is default
-```
+  optional arguments:
+    -h, --help            show this help message and exit
+    --season SEASON       Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
+    --output {csv,json,sqlite,stdout}
+                          Choose output format. stdout is default
+  ```
+
+- To get help with specific argument value use `-h` or `--help`
+
+  Example usage:
+
+  ```py
+  $ python script.py players-stats -h
+  usage: script.py players-stats [-h] --name NAME
+
+  optional arguments:
+    -h, --help   show this help message and exit
+    --name NAME  Provide first or last name of player to their get statistics
+  ```
 
 ### 1. Getting all teams grouped by divisions
 

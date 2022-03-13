@@ -1,5 +1,6 @@
 from data import Data
 from typing import List, Tuple
+import re
 
 
 class Player(Data):
@@ -87,6 +88,10 @@ class Player(Data):
             -------
                 None
         """
+
+        if not re.findall('^[a-zA-Z]*$', name):
+            raise Exception("Name can not contain neither digit nor special chracter.")
+
         payload = {
             'search': name,
             'per_page': 50
