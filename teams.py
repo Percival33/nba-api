@@ -1,6 +1,7 @@
 from data import Data
 from typing import List
 import datetime
+import sys
 
 
 class Teams(Data):
@@ -152,10 +153,12 @@ class Teams(Data):
         limit_year = now.month < 8
 
         if season > now.year - limit_year:
-            raise Exception(f"NBA season {season}/{season+1} has not started yet.") 
+            print(f"Error occurred:\n\tNBA season {season}/{season+1} has not started yet.")
+            sys.exit(1)
 
         if not 1979 <= season <= now.year:
-            raise Exception("Season must be an integer between 1979 and current year.")
+            print("Error occurred:\n\tSeason must be an integer between 1979 and current year.")
+            sys.exit(1)
 
         payload = {
             'seasons[]': season,
