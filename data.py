@@ -144,6 +144,8 @@ class Data:
             csv_writer.writeheader()
 
             for team in data:
+                if not team:
+                    continue
                 line = {
                     'Team name': team['team_name'],
                     'Won games as home team': team["won_games_as_home_team"],
@@ -190,6 +192,8 @@ class Data:
         conn.commit()
 
         for team in data:
+            if not team:
+                continue
             # shorcuts tn = team_name, take only first letters
             value = {
                 'tn': team['team_name'],

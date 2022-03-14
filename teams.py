@@ -177,6 +177,8 @@ class Teams(Data):
             self.to_sqlite(teams_stats)
         else:
             for team in teams_stats:
+                if not team:
+                    continue
                 print(team['team_name'])
                 print(f"\twon games as home team: {team['won_games_as_home_team']}".expandtabs(4))
                 print(f"\twon games as visitor team: {team['won_games_as_visitor_team']}".expandtabs(4))
