@@ -3,6 +3,7 @@ import time
 import csv
 import json
 import sqlite3
+import sys
 from progress.bar import Bar
 from typing import List
 
@@ -113,7 +114,7 @@ class Data:
         with open(f'{filename}.json', 'w') as f:
             json.dump(data, f, indent=2)
 
-        print(f'File {filename}.json was successfully created')
+        print(f'File {filename}.json was successfully created', file = sys.stderr)
 
     @staticmethod
     def to_csv(data: List[dict], filename: str = 'output') -> None:
@@ -156,7 +157,7 @@ class Data:
 
                 csv_writer.writerow(line)
 
-        print(f'File {filename}.csv was successfully created')
+        print(f'File {filename}.csv was successfully created', file = sys.stderr)
 
     @staticmethod
     def to_sqlite(data: List[dict], filename: str = 'output') -> None:
@@ -216,7 +217,7 @@ class Data:
 
         conn.commit()
         conn.close()
-        print(f'File {filename}.sqlite was successfully created')
+        print(f'File {filename}.sqlite was successfully created', file = sys.stderr)
 
     @staticmethod
     def height_to_meters(feet: float, inch: float) -> float:

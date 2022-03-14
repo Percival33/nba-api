@@ -104,28 +104,30 @@ class Teams(Data):
         teams_stats = [dict() for i in range(31)]
 
         for game in data:
-            home_team_data = {
-                'home': True,
-                'team_id': game['home_team']['id'],
-                'team_name': (f'{game["home_team"]["full_name"]}'
-                              f' ({game["home_team"]["abbreviation"]})'),
-                'won': game['home_team_score'] > game['visitor_team_score']
-            }
+            try:
+                home_team_data = {
+                    'home': True,
+                    'team_id': game['home_team']['id'],
+                    'team_name': (f'{game["home_team"]["full_name"]}'
+                                f' ({game["home_team"]["abbreviation"]})'),
+                    'won': game['home_team_score'] > game['visitor_team_score']
+                }
 
-            visitor_team_data = {
-                'home': False,
-                'team_id': game['visitor_team']['id'],
-                'team_name': (f'{game["visitor_team"]["full_name"]}'
-                              f' ({game["visitor_team"]["abbreviation"]})'),
-                'won': game['visitor_team_score'] > game['home_team_score']
-            }
+                visitor_team_data = {
+                    'home': False,
+                    'team_id': game['visitor_team']['id'],
+                    'team_name': (f'{game["visitor_team"]["full_name"]}'
+                                f' ({game["visitor_team"]["abbreviation"]})'),
+                    'won': game['visitor_team_score'] > game['home_team_score']
+                }
 
-            team_id = home_team_data['team_id']
-            teams_stats[team_id] = self.add_team_result(teams_stats[team_id], home_team_data)
+                team_id = home_team_data['team_id']
+                teams_stats[team_id] = self.add_team_result(teams_stats[team_id], home_team_data)
 
-            team_id = visitor_team_data['team_id']
-            teams_stats[team_id] = self.add_team_result(teams_stats[team_id], visitor_team_data)
-
+                team_id = visitor_team_data['team_id']
+                teams_stats[team_id] = self.add_team_result(teams_stats[team_id], visitor_team_data)
+            except KeyError: # continue on empty game data
+                continue
         del teams_stats[0]  # delete empty dict
 
         return teams_stats
@@ -149,8 +151,8 @@ class Teams(Data):
 
         now = datetime.datetime.now()
 
-        # usually seasons start in August - 8 month  
-        limit_year = now.month < 8
+        # usually seasons start in October - 10th month  
+        limit_year = now.month < 10
 
         if season > now.year - limit_year:
             print(f"Error occurred:\n\tNBA season {season}/{season+1} has not started yet.")

@@ -26,14 +26,14 @@ class Player(Data):
         tallest, heaviest = [], []
 
         for player in data:
-            if player['height_feet'] is not None:
+            if 'height_feet' in player and player['height_feet'] is not None:
                 tallest.append({
                     'first_name': player['first_name'],
                     'last_name': player['last_name'],
                     'height': self.height_to_meters(player['height_feet'], player['height_inches'])
                 })
             
-            if player['weight_pounds'] is not None:
+            if 'weight_pounds' in player and player['weight_pounds'] is not None:
                 heaviest.append({
                     'first_name': player['first_name'],
                     'last_name': player['last_name'],
