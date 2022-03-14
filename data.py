@@ -26,18 +26,21 @@ class Data:
             -------
                 None
         """
-        if http_code == 400:
-            raise Exception("Your request is invalid")
-        elif http_code == 404:
-            raise Exception("Specified resource could not be found")
-        elif http_code == 406:
-            raise Exception("Balldontlie could not send format different than json")
-        elif http_code == 429:
-            raise Exception("You sent too many requests! Stop bombarding!")
-        elif http_code == 500:
-            raise Exception("Balldontlie has problem with their server. Try again later.")
-        elif http_code == 503:
-            raise Exception("Balldontlie is offline for maintenance. Please try again later.")
+        try:
+            if http_code == 400:
+                raise Exception("Your request is invalid")
+            elif http_code == 404:
+                raise Exception("Specified resource could not be found")
+            elif http_code == 406:
+                raise Exception("Balldontlie could not send format different than json")
+            elif http_code == 429:
+                raise Exception("You sent too many requests! Stop bombarding!")
+            elif http_code == 500:
+                raise Exception("Balldontlie has problem with their server. Try again later.")
+            elif http_code == 503:
+                raise Exception("Balldontlie is offline for maintenance. Please try again later.")
+        except Exception as err:
+            print(err)
 
     def get_all_data(self, url: str, payload: dict = None) -> List[dict]:
         """
@@ -147,13 +150,16 @@ class Data:
             for team in data:
                 if not team:
                     continue
-                line = {
-                    'Team name': team['team_name'],
-                    'Won games as home team': team["won_games_as_home_team"],
-                    'Won games as visitor team': team["won_games_as_visitor_team"],
-                    'Lost games as home team': team["lost_games_as_home_team"],
-                    'Lost games as visitor team': team["lost_games_as_visitor_team"]
-                }
+                try:
+                    line = {
+                        'Team name': team['team_name'],
+                        'Won games as home team': team["won_games_as_home_team"],
+                        'Won games as visitor team': team["won_games_as_visitor_team"],
+                        'Lost games as home team': team["lost_games_as_home_team"],
+                        'Lost games as visitor team': team["lost_games_as_visitor_team"]
+                    }
+                except KeyError:
+                    continue
 
                 csv_writer.writerow(line)
 
@@ -196,13 +202,16 @@ class Data:
             if not team:
                 continue
             # shorcuts tn = team_name, take only first letters
-            value = {
-                'tn': team['team_name'],
-                'wght': team['won_games_as_home_team'],
-                'wgvt': team['won_games_as_visitor_team'],
-                'lght': team['lost_games_as_home_team'],
-                'lgvt': team['lost_games_as_visitor_team']
-            }
+            try:
+                value = {
+                    'tn': team['team_name'],
+                    'wght': team['won_games_as_home_team'],
+                    'wgvt': team['won_games_as_visitor_team'],
+                    'lght': team['lost_games_as_home_team'],
+                    'lgvt': team['lost_games_as_visitor_team']
+                }
+            except KeyError:
+                continue
 
             c.execute("INSERT INTO teams_stats VALUES "
                       "(:team_name, :won_games_as_home_team,:won_games_as_visitor_team, :lost_games_as_home_team,"

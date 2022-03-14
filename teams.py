@@ -30,18 +30,24 @@ class Teams(Data):
         divisions = dict()
 
         for team in teams:
-            if not team['division'] in divisions:
-                divisions[team['division']] = []
+            try:
+                if not team['division'] in divisions:
+                    divisions[team['division']] = []
 
-            divisions[team['division']].append({
-                'full_name': team['full_name'],
-                'abbreviation': team['abbreviation']
-            })
+                divisions[team['division']].append({
+                    'full_name': team['full_name'],
+                    'abbreviation': team['abbreviation']
+                })
+            except KeyError: # continue on empty data
+                continue
 
         for div in divisions:
             print(div)
             for team in divisions[div]:
-                print(f'\t{team["full_name"]} ({team["abbreviation"]})'.expandtabs(4))
+                try:
+                    print(f'\t{team["full_name"]} ({team["abbreviation"]})'.expandtabs(4))
+                except KeyError: # continue on empty data
+                    continue
 
     @staticmethod
     def add_team_result(team_data: dict, result: dict) -> dict:
@@ -63,25 +69,28 @@ class Teams(Data):
                     Updated dict representing team and their results
         """
 
-        if 'team_name' not in team_data:
-            team_data['team_name'] = result['team_name']
+        try:
+            if 'team_name' not in team_data:
+                team_data['team_name'] = result['team_name']
 
-            team_data['won_games_as_home_team'] = 0
-            team_data['won_games_as_visitor_team'] = 0
-            team_data['lost_games_as_home_team'] = 0
-            team_data['lost_games_as_visitor_team'] = 0
+                team_data['won_games_as_home_team'] = 0
+                team_data['won_games_as_visitor_team'] = 0
+                team_data['lost_games_as_home_team'] = 0
+                team_data['lost_games_as_visitor_team'] = 0
 
-        if result['home']:
-            if result['won']:
-                team_data['won_games_as_home_team'] += 1
+            if result['home']:
+                if result['won']:
+                    team_data['won_games_as_home_team'] += 1
+                else:
+                    team_data['lost_games_as_home_team'] += 1
+
             else:
-                team_data['lost_games_as_home_team'] += 1
-
-        else:
-            if result['won']:
-                team_data['won_games_as_visitor_team'] += 1
-            else:
-                team_data['lost_games_as_visitor_team'] += 1
+                if result['won']:
+                    team_data['won_games_as_visitor_team'] += 1
+                else:
+                    team_data['lost_games_as_visitor_team'] += 1
+        except KeyError: # on empty game result return unchanged
+            return team_data
 
         return team_data
 
@@ -181,8 +190,11 @@ class Teams(Data):
             for team in teams_stats:
                 if not team:
                     continue
-                print(team['team_name'])
-                print(f"\twon games as home team: {team['won_games_as_home_team']}".expandtabs(4))
-                print(f"\twon games as visitor team: {team['won_games_as_visitor_team']}".expandtabs(4))
-                print(f"\tlost games as home team: {team['lost_games_as_home_team']}".expandtabs(4))
-                print(f"\tlost games as visitor team: {team['lost_games_as_visitor_team']}".expandtabs(4))
+                try:
+                    print(team['team_name'])
+                    print(f"\twon games as home team: {team['won_games_as_home_team']}".expandtabs(4))
+                    print(f"\twon games as visitor team: {team['won_games_as_visitor_team']}".expandtabs(4))
+                    print(f"\tlost games as home team: {team['lost_games_as_home_team']}".expandtabs(4))
+                    print(f"\tlost games as visitor team: {team['lost_games_as_visitor_team']}".expandtabs(4))
+                except KeyError:
+                    continue
