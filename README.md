@@ -54,7 +54,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Now you are ready to use script
+- **Now you are ready to use script**
+
+>  - When you are done, deactivate `venv` using command:
+>
+>  ```
+>  deactivate
+>  ```
 
 ## Usage
 
