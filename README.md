@@ -1,8 +1,6 @@
 # nba-api
 
-Author: [Marcin Jarczewski](https://github.com/Percival33).
-
-This is recruitment task for Intern Python Developer at [Profil Software](https://profil-software.com/).
+This is recruitment task for Intern Python Developer.
 
 Task is to build a script/CLI that will process data from external [API](https://www.balldontlie.io/) about NBA related data and return desirable results.
 
