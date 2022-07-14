@@ -1,6 +1,6 @@
 # nba-api
 
-This is recruitment task for Intern Python Developer.
+This was a recruitment task for Intern Python Developer.
 
 Task is to build a script/CLI that will process data from external [API](https://www.balldontlie.io/) about NBA related data and return desirable results.
 
